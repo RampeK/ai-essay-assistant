@@ -5,13 +5,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --primary-bg: #1a1a2e;
-  --secondary-bg: #16213e;
-  --accent-color: #0f3460;
-  --text-primary: #e94560;
-  --text-secondary: #ffffff;
-  --gradient-primary: linear-gradient(135deg, #e94560 0%, #0f3460 100%);
-  --animation-duration: 0.3s;
+  --primary-bg: #000000;
+  --secondary-bg: #111111;
+  --card-bg: rgba(25, 25, 25, 0.8);
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --accent-color: #ffffff;
+  --hover-bg: rgba(255, 255, 255, 0.05);
 }
 
 body {
@@ -22,54 +22,55 @@ body {
 }
 
 .gradient-text {
-  background: linear-gradient(45deg, #e94560, #0f3460);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--text-primary);
+  font-weight: bold;
+  letter-spacing: 0.5px;
 }
 
 .card {
-  background: rgba(22, 33, 62, 0.8);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  padding: 1.5rem;
-  transition: transform 0.2s ease;
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
 .card:hover {
-  transform: translateY(-2px);
+  transform: none;
+  box-shadow: none;
 }
 
 .button {
-  background: var(--text-primary);
-  color: var(--text-secondary);
+  background: var(--secondary-bg);
+  color: var(--text-primary);
   padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  border: none;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.button:hover {
-  background: #d13652;
-  transform: translateY(-1px);
+.button:hover:not(:disabled) {
+  background: var(--hover-bg);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .button:disabled {
-  background: #4a4a5e;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
 .textarea {
   background: var(--secondary-bg);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   color: var(--text-secondary);
   border-radius: 8px;
   padding: 1rem;
   width: 100%;
   resize: vertical;
+  box-sizing: border-box;
 }
 
 .textarea:focus {
@@ -79,42 +80,19 @@ body {
 }
 
 .structure-section {
-  background: rgba(15, 52, 96, 0.2);
-  border-radius: 8px;
-  padding: 1.5rem;
-  border: 1px solid rgba(233, 69, 96, 0.1);
-}
-
-.structure-section:hover {
-  background: rgba(15, 52, 96, 0.3);
-  border-color: rgba(233, 69, 96, 0.2);
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
 }
 
 .structure-section h3 {
   color: var(--text-primary);
-}
-
-ol, ul {
-  margin: 0;
-  padding-left: 1.5rem;
-}
-
-li {
-  margin-bottom: 0.5rem;
-  line-height: 1.6;
-}
-
-.text-text-primary {
-  color: var(--text-primary);
-}
-
-.text-text-secondary {
-  color: var(--text-secondary);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
 
 .structure-section p {
-  line-height: 1.8;
-  margin-bottom: 1rem;
+  line-height: 1.6;
 }
 
 .structure-section h4 {
@@ -133,132 +111,72 @@ li {
   margin: 0.5rem 0;
 }
 
-/* Animated components */
-.fade-in {
-  animation: fadeIn var(--animation-duration) ease-in;
-}
-
-.slide-up {
-  animation: slideUp var(--animation-duration) ease-out;
-}
-
-.scale-in {
-  animation: scaleIn var(--animation-duration) ease-out;
-}
-
 /* Essay type selector styles */
 .essay-type-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .essay-type-card {
-  flex: 1;
-  min-width: 200px;
-  max-width: 300px;
-  padding: 1.5rem;
-  background: rgba(15, 52, 96, 0.3);
-  border: 1px solid rgba(233, 69, 96, 0.1);
-  border-radius: 12px;
-  transition: all 0.3s ease;
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+  padding: 2rem;
   cursor: pointer;
-  text-align: left;
-}
-
-.essay-type-card:hover {
-  background: rgba(15, 52, 96, 0.4);
-  border-color: rgba(233, 69, 96, 0.3);
-  transform: translateY(-4px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transition: border-color 0.2s ease;
 }
 
 .essay-type-card.selected {
-  background: rgba(233, 69, 96, 0.15);
-  border-color: var(--text-primary);
-  box-shadow: 0 0 20px rgba(233, 69, 96, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+}
+
+.essay-type-card:not(.selected):hover {
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .essay-type-icon {
-  display: block;
   font-size: 2rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
+  opacity: 0.9;
+}
+
+.essay-type-card.selected .essay-type-icon {
+  opacity: 1;
 }
 
 .essay-type-title {
-  color: var(--text-secondary);
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
+  color: var(--text-primary);
 }
 
 .essay-type-description {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 0.875rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
   line-height: 1.4;
 }
 
 /* Responsiveness */
 @media (max-width: 768px) {
+  .header-banner h1 {
+    font-size: 2.5rem;
+  }
+  
   .essay-type-grid {
-    justify-content: center;
+    grid-template-columns: 1fr;
+    padding: 1rem;
   }
   
   .essay-type-card {
-    min-width: 250px;
+    padding: 1.5rem;
   }
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* Enhanced existing components */
-.card {
-  @apply backdrop-blur-sm;
-  animation: slideUp var(--animation-duration) ease-out;
-}
-
-.button {
-  @apply transform transition-all duration-300;
-  background: var(--gradient-primary);
-  box-shadow: 0 4px 15px rgba(233, 69, 96, 0.2);
-}
-
-.button:hover {
-  @apply -translate-y-1;
-  box-shadow: 0 8px 20px rgba(233, 69, 96, 0.3);
-}
-
-.gradient-text {
-  @apply font-bold;
-  background: var(--gradient-primary);
-  animation: fadeIn 0.5s ease-in;
 }
 
 /* Improved structure sections */
@@ -274,20 +192,45 @@ li {
 
 /* Add gradient background */
 .app-background {
-  background: linear-gradient(135deg, 
-    var(--primary-bg) 0%, 
-    var(--secondary-bg) 50%,
-    var(--accent-color) 100%
-  );
+  background-color: #000000;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
   min-height: 100vh;
-  padding: 2rem 1rem;
+  position: relative;
+  animation: subtleWave 15s linear infinite;
+}
+
+.app-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 35px 35px;
+  animation: subtleWave 20s linear infinite reverse;
+  pointer-events: none;
+}
+
+@keyframes subtleWave {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 50px 50px;
+  }
 }
 
 /* Improve container styles */
 .container-wrapper {
-  max-width: 1200px;
+  position: relative;
+  z-index: 1;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 2rem;
 }
 
 /* Add space between sections */
@@ -307,73 +250,23 @@ li {
 
 /* Header banner styles */
 .header-banner {
-  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-color) 100%);
-  padding: 2.5rem 1rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  padding: 3rem 1rem;
+  text-align: center;
   position: relative;
   overflow: hidden;
-}
-
-.header-banner::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(45deg, 
-    rgba(255, 255, 255, 0.1) 0%,
-    rgba(255, 255, 255, 0.05) 100%
-  );
-  transform: skewY(-2deg);
-  transform-origin: 100%;
+  background: transparent;
 }
 
 .header-banner h1 {
-  position: relative;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 1) 0%,
-    rgba(255, 255, 255, 0.9) 100%
-  );
+  font-size: 3.5rem;
+  font-weight: 800;
+  background: linear-gradient(to right, #fff, #888);
   -webkit-background-clip: text;
   background-clip: text;
-  animation: fadeIn 0.8s ease-out;
-}
-
-/* Enhance container spacing */
-.container-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-}
-
-/* Adjust app background */
-.app-background {
-  background: linear-gradient(135deg, 
-    var(--primary-bg) 0%, 
-    var(--secondary-bg) 50%,
-    var(--accent-color) 100%
-  );
-  min-height: 100vh;
-}
-
-/* Add subtle animation to the header */
-@keyframes gradientShift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.header-banner {
-  background-size: 200% 200%;
-  animation: gradientShift 15s ease infinite;
+  color: transparent;
+  text-align: center;
+  letter-spacing: 2px;
+  margin: 2rem 0;
 }
 
 /* Static button */
@@ -397,4 +290,105 @@ li {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   padding: 1.5rem;
+}
+
+/* Lisätään smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Päivitetään Essay Requirements Analysis otsikon tyyli */
+.gradient-text, 
+h2.text-2xl {
+  color: var(--heading-color);
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+/* Yksinkertaistetaan otsikkotyylejä */
+.gradient-text,
+h2.text-2xl {
+  color: var(--heading-color);
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+/* Yksinkertaistetaan tekstiosioiden tyylejä */
+.structure-section {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.structure-section h3 {
+  color: var(--text-primary);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.structure-section p {
+  line-height: 1.6;
+}
+
+/* Poistetaan hover-efektit ja animaatiot */
+.card:hover,
+.structure-section:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Yksinkertaistetaan main arguments -listaa */
+.main-arguments-list {
+  list-style: none;
+  padding: 0;
+}
+
+.main-arguments-list li {
+  margin-bottom: 1.5rem;
+}
+
+/* Poistetaan ylimääräiset transition-efektit */
+.card,
+.structure-section,
+.main-arguments-list li {
+  transition: none;
+}
+
+/* Säilytetään vain tarpeelliset button hover -efektit */
+.button {
+  background: var(--secondary-bg);
+  color: var(--text-primary);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.button:hover:not(:disabled) {
+  background: var(--hover-bg);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Scrollbar tyyli */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--secondary-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #444;
 }

@@ -1,18 +1,24 @@
 import React, { useState } from 'react';
-import { EssayRequirements } from '../types/types';
+import { EssayRequirements, EssayStructure } from '../types/types';
 import RequirementsAnalyzer from './RequirementsAnalyzer';
 import StructurePlanner from './StructurePlanner';
 import TextAnalyzer from './TextAnalyzer';
 import EssayTypeSelector, { EssayType } from './EssayTypeSelector';
+import { planStructure } from '../services/ai';
 
 const EssayAssistant: React.FC = () => {
   const [requirements, setRequirements] = useState<EssayRequirements | null>(null);
-  const [showStructure, setShowStructure] = useState(false);
+  const [structure, setStructure] = useState<EssayStructure | null>(null);
   const [essayType, setEssayType] = useState<EssayType | null>(null);
 
-  const handleRequirementsAnalyzed = (analyzedRequirements: EssayRequirements) => {
+  const handleRequirementsAnalyzed = async (analyzedRequirements: EssayRequirements) => {
     setRequirements(analyzedRequirements);
-    setShowStructure(true);
+    try {
+      const plannedStructure = await planStructure(analyzedRequirements);
+      setStructure(plannedStructure);
+    } catch (error) {
+      console.error('Error generating structure:', error);
+    }
   };
 
   return (
@@ -26,7 +32,7 @@ const EssayAssistant: React.FC = () => {
       </div>
 
       <div className="container-wrapper mt-12">
-        <div className="fade-in">
+        <div>
           <div className="section-spacing">
             <EssayTypeSelector 
               onSelect={setEssayType} 
@@ -36,15 +42,18 @@ const EssayAssistant: React.FC = () => {
         </div>
         
         {essayType && (
-          <div className="space-y-12 slide-up">
+          <div className="space-y-12">
             <RequirementsAnalyzer 
               onRequirementsAnalyzed={handleRequirementsAnalyzed}
               essayType={essayType}
             />
 
-            {requirements && showStructure && (
-              <div className="space-y-12 scale-in">
-                <StructurePlanner requirements={requirements} />
+            {requirements && structure && (
+              <div className="space-y-12">
+                <StructurePlanner 
+                  requirements={requirements} 
+                  structure={structure} 
+                />
                 <TextAnalyzer requirements={requirements} />
               </div>
             )}

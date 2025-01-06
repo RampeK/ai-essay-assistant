@@ -55,31 +55,30 @@ async function callGroqAPI(messages: any[]) {
 export async function analyzeRequirements(instructions: string, essayType: EssayType): Promise<EssayRequirements> {
   const systemMessage = {
     role: "system",
-    content: `You are a helpful assistant that analyzes essay requirements. 
-    Analyze requirements specifically for ${essayType} type essays.
-    Always return your response as a valid JSON object.`
+    content: `You are an expert essay structure analyzer. When analyzing essay requirements:
+    1. Default to providing exactly 3 main arguments unless explicitly specified otherwise in the instructions
+    2. Each main argument should be substantial and distinct
+    3. Ensure the arguments flow logically and build upon each other
+    4. Format your response as a structured JSON object
+    5. Consider the essay type (${essayType}) when suggesting the structure
+    6. If the instructions specifically request a different number of arguments, honor that request`
   };
 
   const userMessage = {
     role: "user",
-    content: `Analyze these essay instructions for a ${essayType} essay and extract the requirements into a JSON object with this exact structure:
+    content: `Analyze these essay instructions and provide a detailed structure. 
+    Unless specifically requested otherwise, provide exactly 3 main arguments.
+    
+    Return a JSON object with this structure:
     {
-      "length": {
-        "min": number | null,
-        "max": number | null,
-        "unit": "words" | "pages"
-      },
-      "structure": {
-        "hasIntroduction": boolean,
-        "hasConclusion": boolean,
-        "requiredSections": string[]
-      },
-      "sourceRequirements": {
-        "minSources": number | null,
-        "sourceTypes": string[]
-      },
-      "evaluationCriteria": string[],
-      "topicLimitations": string[]
+      "introduction": "Detailed introduction guidelines...",
+      "mainArguments": [
+        {
+          "section": "Main Argument Title",
+          "content": "Detailed explanation of the argument..."
+        }
+      ],
+      "conclusion": "Detailed conclusion guidelines..."
     }
 
     Instructions: ${instructions}`
@@ -87,8 +86,25 @@ export async function analyzeRequirements(instructions: string, essayType: Essay
 
   try {
     const result = await callGroqAPI([systemMessage, userMessage]);
-    console.log('Parsing result:', result);
-    return JSON.parse(result);
+    const parsedResult = JSON.parse(result);
+    
+    // Tarkistetaan onko ohjeissa määritelty argumenttien määrä
+    const requestedArgumentCount = instructions.match(/(\d+)\s*(?:main\s*)?arguments?/i);
+    const minimumArguments = requestedArgumentCount ? 
+      parseInt(requestedArgumentCount[1]) : 3;
+    
+    // Varmistetaan että on riittävä määrä argumentteja
+    if (!parsedResult.mainArguments || parsedResult.mainArguments.length < minimumArguments) {
+      // Jos argumentteja on liian vähän, generoidaan lisää
+      while (parsedResult.mainArguments.length < minimumArguments) {
+        parsedResult.mainArguments.push({
+          section: `Additional Main Argument ${parsedResult.mainArguments.length + 1}`,
+          content: `This section should discuss another major aspect of the topic...`
+        });
+      }
+    }
+    
+    return parsedResult;
   } catch (error) {
     console.error('Error in analyzeRequirements:', error);
     throw error;

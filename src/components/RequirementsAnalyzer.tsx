@@ -13,6 +13,16 @@ const RequirementsAnalyzer: React.FC<Props> = ({ onRequirementsAnalyzed, essayTy
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const scrollToStructure = () => {
+    const structureElement = document.querySelector('.structure-section');
+    if (structureElement) {
+      structureElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
+
   const analyzeEssayRequirements = async () => {
     if (!instructions.trim()) {
       setError('Please enter essay instructions');
@@ -22,8 +32,18 @@ const RequirementsAnalyzer: React.FC<Props> = ({ onRequirementsAnalyzed, essayTy
     try {
       setLoading(true);
       setError(null);
+      
+      // Analysoidaan vaatimukset
       const requirements = await analyzeRequirements(instructions, essayType);
-      onRequirementsAnalyzed(requirements);
+      
+      // Kutsutaan callback ja odotetaan sen suoritusta
+      await Promise.resolve(onRequirementsAnalyzed(requirements));
+      
+      // Odotetaan hetki ennen scrollausta
+      setTimeout(() => {
+        scrollToStructure();
+      }, 100);
+
     } catch (error) {
       setError('Error analyzing requirements. Please try again.');
       console.error('Error:', error);
